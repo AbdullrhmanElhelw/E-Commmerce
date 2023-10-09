@@ -28,6 +28,13 @@ Deploy the application to Azure App Service or another web hosting provider.
 * .NET 6 or higher
 * Visual Studio 2022 
 
-**License:**
+**Tools:**
+*C#
+*SQL Server 
+*EF-Core
+*ASP .NET Core MVC 
+*Identity
+*Repository Pattern
 
+**License:**
 MIT
