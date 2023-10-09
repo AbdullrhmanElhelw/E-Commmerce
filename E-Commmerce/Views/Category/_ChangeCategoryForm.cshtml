@@ -1,0 +1,14 @@
+﻿@model CategoryImage
+<form method="post" asp-controller="Category" asp-action="ChangePhoto" asp-route-PageNumber="@ViewBag.pageIndex" enctype="multipart/form-data">
+    <div class="input-group-sm">
+        <input hidden asp-for="Id" value="@Model.Id" />
+        <input asp-for="Image" type="file" class="form-control" />
+        <button type="submit"  class="btn btn-primary mt-2">Change Image</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

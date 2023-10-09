@@ -1,0 +1,52 @@
+﻿@model List<Product>
+
+@{
+    ViewBag.Title = "ShowAll";
+}
+@if(Model.Count!=0)
+{
+    <h2 class="mb-3">@ViewBag.CatName || (@Model.Count) In the Stock</h2>
+}
+else
+{
+    <h2 class="mb-3">No Product In The Stock</h2>
+}
+
+<form method="post" asp-action="ShowAll">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" id="myInput" placeholder="Search" name="term" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit" asp-route-catId="@ViewBag.CatId">Search</button>
+        </div>
+    </div>
+</form>
+
+
+@foreach(var product in Model)
+{
+    <div class="card">
+        <div class="card-header">
+            <h3>@product.Name</h3>
+        </div>
+        <div class="card-body">
+            <p>@product.Description</p>
+            <p>@product.Price</p>
+            <p>@product?.Category?.Name</p>
+        </div>
+<div class="card-footer">
+            <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-info text-white">Details</a>
+            <a asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-secondary">Edit</a>
+            <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger" onclick="return confirm('Are You Sure To Delete')">Delete</a>
+    </div>
+</div>
+    <hr />
+}
+
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary mt-2">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

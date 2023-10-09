@@ -1,0 +1,42 @@
+﻿@model CategoryViewModel
+
+@{
+    ViewBag.Title = "Edit Category";
+}
+
+<img src="/CategoryImages/@Model.ImageViewModel.ImageName " width="200px" class="rounded" />
+<partial name="_ChangeCategoryForm" model="new CategoryImage() {Id = Model.Id} ">
+
+
+
+<form method="post" asp-action="Edit" asp-route-PageNumber="@ViewBag.pageIndex" >
+    <div class="card mt-3">
+        <div class="card-header">
+            <h3 class="card-title">Edit Category</h3
+        </div>
+        <div class="card-body">
+            <input hidden asp-for="Id" value="@Model.Id" />
+            <div class="form-group">
+                    <label asp-for="Name" class="control-label mb-2"  ></label>
+                    <input asp-for="Name" value="@Model.Name" class="form-control"  />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+             </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label mb-2"></label>
+                <input asp-for="Description" value="@Model.Description" class="form-control">
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="mt-2" >
+                <button type="submit" class="btn btn-primary">Edit</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="mt-0">
+    <a asp-action="Index" class="page-link text-center text-black font-monospace  ">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

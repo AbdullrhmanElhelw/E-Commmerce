@@ -1,0 +1,31 @@
+﻿@model List<RoleViewModel>
+
+@{
+    ViewBag.Title = "Role Manger";
+}
+
+<h2>Role Manger</h2>
+
+<partial name="_RoleForm" model="new RoleViewModel()" />
+
+<table class="table table-bordered text-center">
+<thead>
+        <tr>
+            <th>Role Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var role in Model)
+        {
+            <tr>
+                <td>@role.Name</td>
+                <td>
+                    <a asp-action="Edit" asp-route-Id="@role.Id" class="btn btn-secondary">Edit</a> |
+                    <a asp-action="Delete" asp-route-Id="@role.Id" class="btn btn-danger"
+                    onclick="return confirm('Are You Sure To Delete')">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

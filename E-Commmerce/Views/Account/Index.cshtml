@@ -1,0 +1,42 @@
+﻿@model PageList<UserViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>All Users</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Full Name</th>
+            <th>UserName</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for(int i =0;i<Model.Count;i++)
+        {
+            <tr>
+                <td>@(i+1)</td>
+                <td>@Model[i].Name</td>
+                <td>@Model[i].UserName</td>
+                <td>@Model[i].Email</td>
+                <td>@Model[i].Role</td>
+                <td>
+                    <a asp-action="Edit" asp-route-Id="@Model[i].Id" class="btn btn-secondary">Edit</a> 
+                    |
+                    <a asp-action="Delete" asp-route-Id="@Model[i].Id" class="btn btn-danger" 
+                    onclick="return confirm('Are You Sure To Delete This User')"
+                    >Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<partial name="_Pagination" />

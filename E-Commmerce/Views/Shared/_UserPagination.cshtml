@@ -1,0 +1,28 @@
+﻿@{
+    var prevDisabled = !Model.HasPrevoiusPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+
+<a asp-action="UserIndex"
+   asp-route-PageNumber="1"
+   class="btn btn-secondary @prevDisabled">
+    First
+</a>
+
+<a asp-action="UserIndex"
+   asp-route-PageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-controller="Category"
+    asp-action="UserIndex"
+   asp-route-PageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>
+<a asp-action="UserIndex"
+   asp-route-PageNumber="@(Model.TotalPages )"
+   class="btn btn-secondary @nextDisabled">
+    Last
+</a>

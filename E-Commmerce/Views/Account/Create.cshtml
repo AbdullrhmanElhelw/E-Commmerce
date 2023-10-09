@@ -1,0 +1,45 @@
+﻿@model CreateUserViewModel
+
+@{
+    ViewBag.Title = "Create User ";
+}
+
+<h1>Create User</h1>
+<form method="post" asp-controller="Account" asp-action="Create" asp-route-PageNumber="@ViewBag.LastPage" class="form-control">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div >
+        <label asp-for="FirstName" class="control-label"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>  
+    <div >
+        <label asp-for="LastName" class="control-label"></label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Password" class="control-label"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="IsAdmin" class="control-label"></label>
+        <input asp-for="IsAdmin" class="form-check-inline mt-3"/>
+        <span asp-validation-for="IsAdmin" class="text-danger"></span>
+    </div>
+    <div class="mt-3">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary mt-3">Back to List</a>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

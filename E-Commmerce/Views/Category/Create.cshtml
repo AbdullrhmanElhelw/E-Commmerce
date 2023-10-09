@@ -1,0 +1,36 @@
+﻿@model CategoryViewModel
+
+@{
+    ViewBag.Title = "Create Category";
+}
+<form method="post" asp-action="Create" >
+    <div class="card ">
+        <div class="card-header">
+            <h3 class="card-title">Create Category</h3
+        </div>
+        <div class="card-body">
+
+            <div class="form-group">
+                    <label asp-for="Name" class="control-label mb-2"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+             </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label mb-2"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="mt-2" >
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="mt-0">
+    <a asp-action="Index" asp-route-PageNumber="@ViewBag.TotalPages" class="page-link text-center text-black font-monospace  ">Back to List</a>
+</div>
+
+ @section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

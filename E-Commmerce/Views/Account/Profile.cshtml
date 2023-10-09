@@ -1,0 +1,47 @@
+﻿@model ProfileViewModel 
+
+<h2>Profile</h2>
+
+<div class="card-img">
+        <div>
+            <img src="~/UserProfileImages/@Model.ImageName" class="rounded" width="250px" />
+        </div>
+</div>
+
+<a asp-action="RemovePhoto" class="btn btn-outline-danger mt-3">Remove Profile Image</a>
+
+<partial name="_ChangePhoto" model="new UpdateImageViewModel()" />
+
+<form method="post" asp-action="Profile" enctype="multipart/form-data" >
+    <div asp-validation-summary="All"></div>
+        <div class="card-body">
+               
+                <div>
+                     <label asp-for="Email" class="form-label md-2"></label>
+                     <input asp-for="Email" class="form-control" value="@Model.Email"  />
+                     <span asp-validation-for="Email" class="text-danger"></span>
+                 </div>   
+                 <div>
+                     <label asp-for="Username" class="form-label md-2"></label>
+                     <input asp-for="Username" class="form-control" value="@Model.Username"  />
+                     <span asp-validation-for="Username" class="text-danger"></span>
+                 </div>   
+                 <div>
+                     <label asp-for="FirstName" class="form-label md-2"></label>
+                     <input asp-for="FirstName" class="form-control" value="@Model.FirstName" />
+                     <span asp-validation-for="FirstName" class="text-danger"></span>
+                 </div>    
+                 <div>
+                     <label asp-for="LastName" class="form-label md-2"></label>
+                     <input asp-for="LastName" class="form-control" value="@Model.LastName" />
+                     <span asp-validation-for="LastName" class="text-danger"></span>
+                 </div>
+        <button class="btn btn-primary mt-3">Update</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

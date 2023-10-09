@@ -1,0 +1,84 @@
+﻿@model List<ProductViewModel>
+
+    @{ ViewData["Title"] = "List Product"; }
+
+    <h1>All Product</h1>
+
+    <p>
+        <a asp-action="Create" class="btn btn-success">Create New</a>
+    </p>
+
+@{
+    var Ids = ViewBag.CategoryIds as List<int>;
+    var id = Model.FirstOrDefault(c => c.CategoryId == 1);
+}
+
+    <form method="post" asp-action="Index" >
+       @*  <div class="form-group">
+            <h4 class="text-secondary"> Filter By Category</h4>
+        <select asp-for="@Ids" asp-items="@ViewBag.Categories" name="CatId" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                <option value="">-- Select Category --</option>
+            </select>
+            <span asp-validation-for="@Ids" class="text-danger"></span>
+        </div> *@
+
+
+        
+        <div>
+            <h4>Filter By Category</h4>
+        <select asp-for="@id" asp-items="@ViewBag.Categories" name="CatId" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                <option value="">---Select Category-----</option>
+            </select>
+        </div>
+
+        <div class="form-group mt-2">
+            <input type="submit" value="Filter" class="btn btn-outline-primary" />
+        </div>
+    </form>
+
+
+    <div class="mt-2">
+        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary" >Reset</a>
+    </div>
+
+
+    <table class="table table-bordered text-center mt-4">
+        <thead>
+            <th>Name</th>
+            <th>Product Image</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Actions</th>
+        </thead>
+
+        <tbody class="align-middle">
+            @foreach (var product in Model) {
+            <tr>
+                <td>@product.Name</td>
+                <td>
+                   <img src="/ProductImages/@product.ImageViewModel.ImageName" width="110px">
+                </td>
+                <td>@product.Price <span class="badge">L.E</span></td>
+                <td>@product.Description</td>
+                <td>@product?.Category?.Name</td>
+                <td>
+                    <a asp-action="Delete" class="btn btn-danger" asp-route-Id="@product?.Id"  
+                        onclick="return confirm('Are You Sure to Delete this Item')"
+                    >Delete</a>
+                    <a asp-action="Edit" class="btn btn-secondary" asp-route-Id="@product?.Id" >Edit</a>
+                    <a asp-action="Details" class="btn btn-info text-white" asp-route-Id="@product?.Id" >Details</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+<style>
+    .badge {
+        background-color: #49796B;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 10px;
+    }
+</style>

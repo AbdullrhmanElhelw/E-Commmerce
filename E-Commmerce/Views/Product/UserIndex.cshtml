@@ -1,0 +1,15 @@
+﻿@model List<ProductViewModel>
+
+@foreach(var item in Model)
+{
+    <div class="card-group">
+        <div class="card">
+            <img src="/ProductImages/@item.ImageViewModel.ImageName" alt="Denim Jeans" style="width:150px" class="rounded">
+            <h1>@item.Name</h1>
+            <p class="price">@item.Price L.E</p>
+            <p>@item.Description</p>
+            <button class="btn btn-success mt-3">Add to Cart</button>
+        </div>
+    </div>
+    <br />
+}

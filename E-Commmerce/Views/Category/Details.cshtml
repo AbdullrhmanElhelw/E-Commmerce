@@ -1,0 +1,21 @@
+﻿@model CategoryViewModel
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="card-group">
+    <div class="card-img">
+        <img src="/CategoryImages/@Model.ImageViewModel.ImageName" width="200px" />
+    </div>
+    <div class="card-header">
+        <h3>@Model.Name</h3>
+    </div>
+    <div class="card-body">
+        <p class="card-text">Description: @Model.Description</p>
+        <p class="card-text">In Stock: @Model?.ProductsCount</p>
+    </div>
+    <div>
+        <a asp-action="Index" class="btn btn-secondary m-3">Back to List</a>
+    </div>
+
+</div>

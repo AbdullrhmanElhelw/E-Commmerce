@@ -1,0 +1,72 @@
+﻿@model PageList<CategoryViewModel>
+
+@{
+    ViewBag.Title = "All Cateigories";
+}
+
+
+
+<h2>All Categories</h2>
+<p>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
+</p>
+
+
+
+<table class="table table-bordered text-md-center align-middle">
+    <thead>
+        <th>#</th>
+        <th>Category Name </th>
+        <th>Description</th>
+        <th>Category Image</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        @for(int i = 0;i<Model.Count();i++)
+        {
+            
+            <tr>
+                <td>@(i+1)</td>
+                <td>
+                    <h4 class="header">@Model[i].Name </h4>
+                   @if(Model[i].ProductsCount == 0)
+                    {
+                        <span class="paragraph">Empty</span>
+                    }
+                    else
+                    {
+                        <span class="paragraph">@Model[i].ProductsCount</span>
+                    }
+                </td>
+                <td>@Model[i].Description</td>
+                <td><img src="/CategoryImages/@Model[i]?.ImageViewModel?.ImageName" width="150px" class="rounded" /></td>
+                <td>
+                    <a class="btn btn-danger"
+                       asp-action="Delete" asp-route-Id=@Model[i].Id asp-route-PageNumber="@Model.PageIndex"
+                       onclick="return confirm('Are You Sure To Delete')">Delete</a>
+                       |
+                    <a asp-action="Edit" asp-route-Id="@Model[i].Id" asp-route-PageNumber="@Model.PageIndex" class="btn btn-secondary">Edit</a>
+                       |
+                    <a asp-action="Details" asp-route-Id="@Model[i].Id"  class="btn btn-info text-white">Details</a>
+                       |
+                    <a asp-action="ShowAll" asp-route-CategoryId="@Model[i].Id" class="btn btn-dark text-white">Show All</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<partial name="_Pagination" />
+
+<style>
+    .paragraph{
+        background-color: #363432;
+        color: white;
+        padding: 4px 8px;
+        text-align: center;
+        border-radius: 5px;
+    }
+    .header{
+        display:inline-block;
+    }
+</style>

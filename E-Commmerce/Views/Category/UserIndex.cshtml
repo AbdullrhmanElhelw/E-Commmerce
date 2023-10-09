@@ -1,0 +1,34 @@
+﻿@model PageList<CategoryViewModel>
+
+@{
+    ViewBag.Title = "Categories";
+}
+
+@foreach(var item in Model)
+{
+    <div class="card card-subtitle">
+        <div class="card-img">
+            <img src="/CategoryImages/@item.ImageViewModel.ImageName" width="20%" class="rounded-3">
+        </div>
+        <div class="card-header">
+            <h3>   @item.Name</h3>
+        </div>
+        <div class="card-body">
+            <p>  @item.Description</p>
+        </div>
+        <div class="card-footer">
+            <a class="btn btn-primary" asp-controller="Product" asp-action="ListByCategory" asp-route-CategoryId="@item.Id">Show All</a>
+        </div>
+    </div>
+    <hr />
+}
+
+
+<style>
+    hr{
+        border: 6px solid #002333;
+        border-radius: 010px;
+    }
+</style>
+
+<partial name="_UserPagination" />
