@@ -29,12 +29,12 @@ Deploy the application to Azure App Service or another web hosting provider.
 * Visual Studio 2022 
 
 **Tools:**
-*C#
-*SQL Server 
-*EF-Core
-*ASP .NET Core MVC 
-*Identity
-*Repository Pattern
+* C#
+* SQL Server 
+* EF-Core
+* ASP .NET Core MVC 
+* Identity
+* Repository Pattern
 
 **License:**
 MIT
