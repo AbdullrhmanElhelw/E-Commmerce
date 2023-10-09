@@ -4,7 +4,7 @@
 
 **To use:**
 
-1. Clone the repository: `git clone https://github.com/YOUR_USERNAME/ASP.NET_Core_MVC_E-Commerce_App](https://github.com/AbdullrhmanElhelw/E-Commmerce.git`
+1. Clone the repository: `git clone https://github.com/AbdullrhmanElhelw/E-Commmerce.git`
 2. Install the .NET Core runtime: `https://dotnet.microsoft.com/download`
 3. Restore the project dependencies: `dotnet restore`
 4. Run the application: `dotnet run`
