@@ -15,13 +15,13 @@ namespace E_Commmerce.Controllers;
 
 
 [Authorize(Roles = nameof(Roles.Admin))]
-public  class AccountController : Controller
+public class AccountController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public AccountController(UserManager<ApplicationUser> userManager , SignInManager<ApplicationUser> signInManager,
+    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
         IWebHostEnvironment webHostEnvironment)
     {
         _userManager = userManager;
@@ -41,7 +41,7 @@ public  class AccountController : Controller
         }
         ).ToList();
 
-        PageList<UserViewModel> users = PageList<UserViewModel>.Create(list, PageNumber ?? 1, 3); 
+        PageList<UserViewModel> users = PageList<UserViewModel>.Create(list, PageNumber ?? 1, 3);
         return View(users);
     }
 
@@ -56,7 +56,7 @@ public  class AccountController : Controller
     [HttpPost]
     public IActionResult Create(CreateUserViewModel model)
     {
-        if(ModelState.IsValid)
+        if (ModelState.IsValid)
         {
             var user = new ApplicationUser()
             {
@@ -67,14 +67,14 @@ public  class AccountController : Controller
                 UserName = new MailAddress(model.Email).User
             };
             var result = _userManager.CreateAsync(user, model.Password).Result;
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
-                _userManager.AddToRoleAsync(user, model.IsAdmin ? nameof(Roles.Admin):nameof(Roles.User)).Wait();
+                _userManager.AddToRoleAsync(user, model.IsAdmin ? nameof(Roles.Admin) : nameof(Roles.User)).Wait();
                 return RedirectToAction(nameof(Index));
             }
             else
             {
-                foreach(var error in result.Errors)
+                foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
@@ -105,22 +105,22 @@ public  class AccountController : Controller
                 ImageName = "Defualt.jpg",
                 UserName = new MailAddress(model.Email).User,
             };
-            var result =_userManager.CreateAsync(user, model.Password).Result;
-            if(result.Succeeded)
+            var result = _userManager.CreateAsync(user, model.Password).Result;
+            if (result.Succeeded)
             {
                 _userManager.AddToRoleAsync(user, nameof(Roles.User)).Wait();
-                   _signInManager.SignInAsync(user, false);
+                _signInManager.SignInAsync(user, false);
                 return RedirectToAction(nameof(Login));
             }
             else
             {
-                foreach(var error in result.Errors)
+                foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
             }
         }
-      return View(model);
+        return View(model);
     }
 
     [HttpGet]
@@ -128,7 +128,7 @@ public  class AccountController : Controller
     public IActionResult Profile()
     {
         var user = _userManager.FindByNameAsync(User?.Identity?.Name!).Result;
-        if(user!=null)
+        if (user != null)
         {
             var model = new ProfileViewModel()
             {
@@ -138,13 +138,13 @@ public  class AccountController : Controller
                 Username = user.UserName,
                 ImageName = user.ImageName ?? "Defualt.jpg"
             };
-            
+
             return View(model);
         }
         return NotFound();
-        
+
     }
-    
+
     // create and save picture 
     // assign this pictuer to the user 
     // redirt to an action
@@ -152,10 +152,10 @@ public  class AccountController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     [AllowAnonymous]
-    public  IActionResult Profile(ProfileViewModel model)
+    public IActionResult Profile(ProfileViewModel model)
     {
         var user = _userManager.FindByNameAsync(User.Identity.Name).Result;
-        if(user!=null)
+        if (user != null)
         {
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
@@ -163,7 +163,7 @@ public  class AccountController : Controller
             user.UserName = model.Username;
 
             var result = _userManager.UpdateAsync(user).Result;
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
                 return RedirectToAction(nameof(Profile));
             }
@@ -182,16 +182,16 @@ public  class AccountController : Controller
     public IActionResult UpdatePhoto(UpdateImageViewModel model)
     {
         var user = _userManager.FindByNameAsync(User.Identity.Name).Result;
-        if(ModelState.IsValid)
+        if (ModelState.IsValid)
         {
-            if(model.Image!=null)
+            if (model.Image != null)
             {
                 var path = Path.Combine(_webHostEnvironment.WebRootPath, "UserProfileImages", model.Image.FileName);
                 using var stream = new FileStream(path, FileMode.Create);
                 model.Image.CopyTo(stream);
                 user.ImageName = model.Image.FileName;
                 var result = _userManager.UpdateAsync(user).Result;
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     return RedirectToAction(nameof(Profile));
 
@@ -211,20 +211,20 @@ public  class AccountController : Controller
     public IActionResult RemovePhoto()
     {
         var user = _userManager.FindByNameAsync(User.Identity.Name).Result;
-        if(user!=null)
+        if (user != null)
         {
-            if(user.ImageName!=null || user.ImageName != "Default.jpg")
+            if (user.ImageName != null || user.ImageName != "Default.jpg")
             {
                 user.ImageName = "Defualt.jpg";
                 var result = _userManager.UpdateAsync(user).Result;
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     return RedirectToAction(nameof(Profile));
                 }
                 else
                 {
-                    foreach(var error in result.Errors)
-                        ModelState.AddModelError("" , error.Description);
+                    foreach (var error in result.Errors)
+                        ModelState.AddModelError("", error.Description);
                 }
             }
         }
@@ -245,13 +245,13 @@ public  class AccountController : Controller
 
     public async Task<IActionResult> Login(UserLoginViewModel model)
     {
-        if(ModelState.IsValid)
+        if (ModelState.IsValid)
         {
-           var user =  await _userManager.FindByEmailAsync(model.Email);
-           if(user!=null)
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user != null)
             {
                 bool found = await _userManager.CheckPasswordAsync(user, model.Password);
-                if(found)
+                if (found)
                 {
                     await _signInManager.SignInAsync(user, false);
                     user.ImageName = new UpdateImageViewModel().ImageName ?? "Defualt.jpg";
@@ -262,7 +262,7 @@ public  class AccountController : Controller
                     ModelState.AddModelError("", "Invalid Password");
                 }
             }
-           else
+            else
             {
                 ModelState.AddModelError("", "Invalid Email Or Username");
             }
@@ -282,11 +282,11 @@ public  class AccountController : Controller
     public IActionResult Delete(string Id)
     {
         var user = _userManager.FindByIdAsync(Id).Result;
-        if(user!= null)
+        if (user != null)
         {
-            
-            var result =  _userManager.DeleteAsync(user).Result;
-            if(result.Succeeded)
+
+            var result = _userManager.DeleteAsync(user).Result;
+            if (result.Succeeded)
             {
                 return RedirectToAction(nameof(Index));
             }

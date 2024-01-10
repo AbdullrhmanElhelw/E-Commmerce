@@ -10,7 +10,7 @@ namespace E_Commmerce.Models
 
 
         [Required]
-        [Column(TypeName = "nvarchar(100)") ]
+        [Column(TypeName = "nvarchar(100)")]
         public string Name { get; set; } = string.Empty;
 
         [Required]
@@ -27,7 +27,7 @@ namespace E_Commmerce.Models
         public string? ImageName { get; set; }
         public string? ImageContentType { get; set; }
 
-       
+
 
     }
 }

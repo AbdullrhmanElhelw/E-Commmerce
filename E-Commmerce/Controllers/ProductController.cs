@@ -11,33 +11,33 @@ using System.Security.Cryptography.Xml;
 
 namespace E_Commmerce.Controllers
 {
-    [Authorize(Roles =nameof(Roles.Admin))]
-    public class ProductController:Controller
+    [Authorize(Roles = nameof(Roles.Admin))]
+    public class ProductController : Controller
     {
         private readonly IProductRepository _productRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public ProductController(IProductRepository productRepository, ICategoryRepository categoryRepository,IWebHostEnvironment webHostEnvironment)
+        public ProductController(IProductRepository productRepository, ICategoryRepository categoryRepository, IWebHostEnvironment webHostEnvironment)
         {
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
             _webHostEnvironment = webHostEnvironment;
         }
 
-       
+
         [HttpGet]
         public IActionResult Index()
         {
             var listVm = _productRepository.GetAll.Select(
                 p => new ProductViewModel()
                 {
-                    Id= p.Id,
+                    Id = p.Id,
                     Name = p.Name,
                     Price = p.Price,
-                    Description= p.Description,
+                    Description = p.Description,
                     Category = p.Category,
                     CategoryId = p.CategoryId,
-                    ImageViewModel = new UpdateImageViewModel() { ImageName =  p.ImageName ?? "Defualt.png" },
+                    ImageViewModel = new UpdateImageViewModel() { ImageName = p.ImageName ?? "Defualt.png" },
                 }
                 ).ToList();
             ViewBag.Categories = CategoryDropDownList(_categoryRepository?.GetAll!);
@@ -57,9 +57,9 @@ namespace E_Commmerce.Controllers
                     Description = p.Description,
                     Category = p.Category,
                     CategoryId = p.CategoryId,
-                    ImageViewModel = new UpdateImageViewModel() { ImageName=p.ImageName ?? "Defualt.png" }
+                    ImageViewModel = new UpdateImageViewModel() { ImageName = p.ImageName ?? "Defualt.png" }
                 }
-                ).Where(p=>p.CategoryId==CatId).ToList();
+                ).Where(p => p.CategoryId == CatId).ToList();
             ViewBag.Categories = CategoryDropDownList(_categoryRepository?.GetAll!);
             return View(listVm);
         }
@@ -75,7 +75,7 @@ namespace E_Commmerce.Controllers
         [HttpPost]
         public IActionResult Create(ProductViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var product = new Product
                 {
@@ -83,7 +83,7 @@ namespace E_Commmerce.Controllers
                     Price = model.Price,
                     Description = model.Description,
                     CategoryId = model.CategoryId,
-                    Category = _categoryRepository.GetbyId((int) model.CategoryId!)
+                    Category = _categoryRepository.GetbyId((int)model.CategoryId!)
                 };
                 _productRepository.Add(product);
                 return RedirectToAction("Index");
@@ -95,7 +95,7 @@ namespace E_Commmerce.Controllers
         public IActionResult Details(int id)
         {
             var product = _productRepository.GetbyId(id);
-            if(product == null)
+            if (product == null)
             {
                 return NotFound();
             }
@@ -106,7 +106,7 @@ namespace E_Commmerce.Controllers
                 Description = product.Description,
                 CategoryId = product.CategoryId,
                 Category = _categoryRepository.GetbyId((int)product.CategoryId!),
-                ImageViewModel = new UpdateImageViewModel() { ImageName = product.ImageName ?? "Defualt.png"}
+                ImageViewModel = new UpdateImageViewModel() { ImageName = product.ImageName ?? "Defualt.png" }
             };
             return View(ProdcutVm);
         }
@@ -115,7 +115,7 @@ namespace E_Commmerce.Controllers
         public IActionResult Edit(int Id)
         {
             var Product = _productRepository.GetbyId(Id);
-            if(Product == null)
+            if (Product == null)
             {
                 return NotFound();
             }
@@ -127,7 +127,7 @@ namespace E_Commmerce.Controllers
                 Description = Product.Description,
                 CategoryId = Product.CategoryId,
                 Category = _categoryRepository.GetbyId((int)Product.CategoryId),
-                ImageViewModel= new UpdateImageViewModel() { ImageName= Product.ImageName ?? "Defualt.png" }
+                ImageViewModel = new UpdateImageViewModel() { ImageName = Product.ImageName ?? "Defualt.png" }
             };
             ViewBag.Categories = CategoryDropDownList(_categoryRepository.GetAll!);
             return View(ProductVm);
@@ -146,7 +146,7 @@ namespace E_Commmerce.Controllers
                     CategoryId = model.CategoryId,
                     Category = _categoryRepository.GetbyId((int)model.CategoryId!)
                 };
-                _productRepository.Update(model.Id,product);
+                _productRepository.Update(model.Id, product);
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -174,15 +174,15 @@ namespace E_Commmerce.Controllers
                 }
                 ModelState.AddModelError("", "No Image Selected !!");
             }
-            return RedirectToAction(nameof(Edit), new {Id = model.Id});
+            return RedirectToAction(nameof(Edit), new { Id = model.Id });
         }
 
 
 
-        public IActionResult Delete (int Id)
+        public IActionResult Delete(int Id)
         {
             var product = _productRepository.GetbyId(Id);
-            if(product == null)
+            if (product == null)
             {
                 return NotFound();
             }
@@ -191,7 +191,7 @@ namespace E_Commmerce.Controllers
 
         }
 
-       
+
 
         private IEnumerable<SelectListItem> CategoryDropDownList(IEnumerable<Category> categories)
         {
@@ -229,12 +229,12 @@ namespace E_Commmerce.Controllers
                     CategoryId = p.CategoryId,
                     Price = p.Price,
                     Category = _categoryRepository.GetbyId((int)p.CategoryId!),
-                    ImageViewModel = new UpdateImageViewModel() { ImageName = p.ImageName?? "Defualt.png" }
+                    ImageViewModel = new UpdateImageViewModel() { ImageName = p.ImageName ?? "Defualt.png" }
                 }).ToList();
             ViewBag.CatName = _categoryRepository?.GetbyId(CategoryId)?.Name;
             ViewBag.CatId = CategoryId;
             ViewBag.Products = products;
-            return View(nameof(UserIndex), products) ;
+            return View(nameof(UserIndex), products);
         }
 
 

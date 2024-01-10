@@ -9,7 +9,7 @@ namespace E_Commmerce.Models
         public int Id { get; set; }
 
         [Required]
-        [Column("CategroyName",TypeName ="nvarchar(100)")]
+        [Column("CategroyName", TypeName = "nvarchar(100)")]
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public ICollection<Product> Products { get; set; } = new List<Product>();
