@@ -14,7 +14,7 @@ namespace E_Commmerce.Controllers
     public class RoleController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleRepository;
-        public RoleController(RoleManager<IdentityRole> roleRepository )
+        public RoleController(RoleManager<IdentityRole> roleRepository)
         {
             _roleRepository = roleRepository;
         }
@@ -56,19 +56,19 @@ namespace E_Commmerce.Controllers
             return View(model);
         }
 
-        public  IActionResult Delete(string Id)
+        public IActionResult Delete(string Id)
         {
-           var role = _roleRepository.FindByIdAsync(Id).Result;
-            if(role != null)
+            var role = _roleRepository.FindByIdAsync(Id).Result;
+            if (role != null)
             {
                 var result = _roleRepository.DeleteAsync(role).Result;
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     return RedirectToAction(nameof(Index));
                 }
                 else
                 {
-                    foreach(var error in result.Errors)
+                    foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError("", error.Description);
                     }
@@ -93,14 +93,14 @@ namespace E_Commmerce.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(RoleViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var role = _roleRepository.FindByIdAsync(model.Id).Result;
-                if(role!=null)
+                if (role != null)
                 {
                     role.Name = model.Name;
                     var result = _roleRepository.UpdateAsync(role).Result;
-                    if(result.Succeeded)
+                    if (result.Succeeded)
                     {
                         return RedirectToAction(nameof(Index));
                     }

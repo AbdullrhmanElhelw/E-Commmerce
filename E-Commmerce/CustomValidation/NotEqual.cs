@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace E_Commmerce.CustomValidation;
 
-public class NotEqual: ValidationAttribute
+public class NotEqual : ValidationAttribute
 {
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
@@ -11,7 +11,7 @@ public class NotEqual: ValidationAttribute
         string Description = value.ToString();
         if (Description != null)
         {
-           
+
             if (Description == model.Name)
             {
                 return new ValidationResult("Description cannot be equal to name");

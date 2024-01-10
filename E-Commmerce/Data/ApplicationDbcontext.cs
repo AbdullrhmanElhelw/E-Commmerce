@@ -7,7 +7,7 @@ using E_Commmerce.ViewModels;
 
 namespace E_Commmerce.Data;
 
-public class ApplicationDbcontext :IdentityDbContext<ApplicationUser>
+public class ApplicationDbcontext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<Product> Products { get; set; } = null!;
     public DbSet<Category> Categories { get; set; } = null!;
@@ -15,7 +15,7 @@ public class ApplicationDbcontext :IdentityDbContext<ApplicationUser>
     public ApplicationDbcontext(DbContextOptions<ApplicationDbcontext> options) : base(options)
     {
     }
-   
+
 
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -54,11 +54,11 @@ public class ApplicationDbcontext :IdentityDbContext<ApplicationUser>
             .WithOne(p => p.Category)
             .OnDelete(DeleteBehavior.Cascade);
     }
-   
+
 
 
     public DbSet<RoleViewModel> RoleViewModel { get; set; } = default!;
 
-    
+
 
 }

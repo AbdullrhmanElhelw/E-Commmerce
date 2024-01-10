@@ -13,43 +13,43 @@ namespace E_Commmerce.IReposatory.RepositoryModels
             _dbcontext = dbcontext;
         }
 
-        public IEnumerable<Product>? GetAll => _dbcontext.Products.Include(p=>p.Category).ToList();
+        public IEnumerable<Product>? GetAll => _dbcontext.Products.Include(p => p.Category).ToList();
 
         public void Add(Product entity)
         {
-           if(entity!=null)
+            if (entity != null)
             {
                 _dbcontext.Products.Add(entity);
                 _dbcontext.SaveChanges();
                 return;
             }
-           throw new NullReferenceException(nameof(entity));
+            throw new NullReferenceException(nameof(entity));
         }
 
         public Product? GetbyId(int id)
         {
-           return _dbcontext.Products.Find(id);
+            return _dbcontext.Products.Find(id);
         }
 
         public void Remove(Product entity)
         {
             if (entity != null)
             {
-                _dbcontext.Remove(entity); 
+                _dbcontext.Remove(entity);
                 _dbcontext.SaveChanges();
                 return;
             }
             throw new NullReferenceException(nameof(entity));
-            
+
         }
 
-    
+
 
         public void Update(int Id, Product entity)
         {
             var product = _dbcontext.Products.Find(Id);
             var oldPicture = product.ImageName;
-            if(product!=null)
+            if (product != null)
             {
                 product.Name = entity.Name;
                 product.Price = entity.Price;
@@ -57,7 +57,7 @@ namespace E_Commmerce.IReposatory.RepositoryModels
                 product.CategoryId = entity.CategoryId;
                 product.Category = entity.Category;
                 product.CategoryId = entity.CategoryId;
-                if(product.ImageName!=null || product.ImageName != "Defualt.png")
+                if (product.ImageName != null || product.ImageName != "Defualt.png")
                 {
                     product.ImageName = oldPicture;
                 }

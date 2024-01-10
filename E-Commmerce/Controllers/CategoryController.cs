@@ -12,29 +12,29 @@ using System.ComponentModel.DataAnnotations;
 namespace E_Commmerce.Controllers
 {
 
-    [Authorize(Roles =nameof(Roles.Admin))]
+    [Authorize(Roles = nameof(Roles.Admin))]
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public CategoryController(ICategoryRepository categoryRepository,IWebHostEnvironment webHostEnvironment) 
+        public CategoryController(ICategoryRepository categoryRepository, IWebHostEnvironment webHostEnvironment)
         {
             _webHostEnvironment = webHostEnvironment;
             _categoryRepository = categoryRepository;
         }
 
-        public IActionResult Index(int PageNumber=1)
+        public IActionResult Index(int PageNumber = 1)
         {
             var list = _categoryRepository.GetAll.Select(c => new CategoryViewModel()
             {
                 Id = c.Id,
                 Name = c.Name,
                 Description = c.Description,
-                ImageViewModel = new UpdateImageViewModel() { ImageName= c.ImageName ?? "Defualt.png" },
+                ImageViewModel = new UpdateImageViewModel() { ImageName = c.ImageName ?? "Defualt.png" },
                 ProductsCount = c.Products.Count
             }).ToList();
 
-            PageList<CategoryViewModel> Categories = PageList<CategoryViewModel>.Create(list, PageNumber, 5); 
+            PageList<CategoryViewModel> Categories = PageList<CategoryViewModel>.Create(list, PageNumber, 5);
             return View(Categories);
         }
 
@@ -48,7 +48,7 @@ namespace E_Commmerce.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(CategoryViewModel model)
         {
-         
+
             if (ModelState.IsValid)
             {
                 var category = new Category()
@@ -61,16 +61,16 @@ namespace E_Commmerce.Controllers
                 var count = _categoryRepository.GetAll.Count();
                 var PageNumber = (int)Math.Ceiling(count / 5d);
                 ViewBag.TotalPages = PageNumber;
-                return RedirectToAction(nameof(Index), new { PageNumber = PageNumber});
+                return RedirectToAction(nameof(Index), new { PageNumber = PageNumber });
             }
             return View(model);
         }
 
         [HttpGet]
-        public IActionResult Edit(int Id,int PageNumber )
+        public IActionResult Edit(int Id, int PageNumber)
         {
             var Category = _categoryRepository.GetbyId(Id);
-            if(Category != null)
+            if (Category != null)
             {
                 var model = new CategoryViewModel()
                 {
@@ -80,18 +80,18 @@ namespace E_Commmerce.Controllers
                     ImageViewModel = new UpdateImageViewModel() { ImageName = Category.ImageName ?? "Defualt.png" }
                 };
                 ViewBag.pageIndex = PageNumber;
-               return View(model);
+                return View(model);
             }
             return NotFound();
         }
 
- 
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(CategoryViewModel model,int PageNumber)
+        public IActionResult Edit(CategoryViewModel model, int PageNumber)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var category = new Category()
                 {
@@ -99,8 +99,8 @@ namespace E_Commmerce.Controllers
                     Name = model.Name,
                     Description = model.Description
                 };
-                _categoryRepository.Update(model.Id,category);
-                return RedirectToAction(nameof(Index),new { PageNumber = PageNumber });
+                _categoryRepository.Update(model.Id, category);
+                return RedirectToAction(nameof(Index), new { PageNumber = PageNumber });
             }
             return View(model);
         }
@@ -108,37 +108,37 @@ namespace E_Commmerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-      
-        public IActionResult ChangePhoto(CategoryImage model,int PageNumber)
+
+        public IActionResult ChangePhoto(CategoryImage model, int PageNumber)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var Category = _categoryRepository.GetbyId(model.Id);
-                if(Category!=null)
+                if (Category != null)
                 {
-                    if(model.Image!=null)
+                    if (model.Image != null)
                     {
                         var path = Path.Combine(_webHostEnvironment.WebRootPath, "CategoryImages", model.Image.FileName);
                         using var stream = new FileStream(path, FileMode.Create);
                         model.Image.CopyTo(stream);
                         Category.ImageName = model.Image.FileName;
                         _categoryRepository.Update(model.Id, Category);
-                        return RedirectToAction(nameof(Index),new { PageNumber = PageNumber });
+                        return RedirectToAction(nameof(Index), new { PageNumber = PageNumber });
                     }
                 }
                 ModelState.AddModelError("", "No Image Selected !!");
             }
-            return RedirectToAction(nameof(Edit), new {Id=model.Id});
+            return RedirectToAction(nameof(Edit), new { Id = model.Id });
         }
 
 
-        public IActionResult Delete (int Id,int PageNumber)
+        public IActionResult Delete(int Id, int PageNumber)
         {
             var Category = _categoryRepository.GetbyId(Id);
-            if(Category!=null)
+            if (Category != null)
             {
                 _categoryRepository.Remove(Category);
-                return RedirectToAction(nameof(Index),new {PageNumber = PageNumber });
+                return RedirectToAction(nameof(Index), new { PageNumber = PageNumber });
             }
             return NotFound();
         }
@@ -147,7 +147,7 @@ namespace E_Commmerce.Controllers
         public IActionResult Details(int Id)
         {
             var Category = _categoryRepository.GetbyId(Id);
-            if(Category!=null)
+            if (Category != null)
             {
                 var CategoryViewModel = new CategoryViewModel()
                 {
@@ -181,7 +181,7 @@ namespace E_Commmerce.Controllers
         [HttpPost]
         public IActionResult ShowAll(int catid, string term)
         {
-            var list = _categoryRepository.Search(catid,term);
+            var list = _categoryRepository.Search(catid, term);
             ViewBag.CatName = _categoryRepository?.GetbyId(catid)?.Name;
             return View(list);
         }
@@ -198,13 +198,13 @@ namespace E_Commmerce.Controllers
                 ImageViewModel = new UpdateImageViewModel() { ImageName = c.ImageName ?? "Defualt.png" }
             }).ToList();
 
-            PageList<CategoryViewModel> categoryViews = PageList<CategoryViewModel>.Create(categories, PageNumber, 3); 
+            PageList<CategoryViewModel> categoryViews = PageList<CategoryViewModel>.Create(categories, PageNumber, 3);
 
             return View(categoryViews);
         }
 
 
-        
-        
+
+
     }
 }

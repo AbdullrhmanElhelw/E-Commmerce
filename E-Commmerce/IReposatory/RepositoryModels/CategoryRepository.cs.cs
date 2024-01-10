@@ -10,7 +10,7 @@ public class CategoryRepository : ICategoryRepository
 
     private readonly ApplicationDbcontext _dbcontext;
 
-    public CategoryRepository (ApplicationDbcontext dbcontext)
+    public CategoryRepository(ApplicationDbcontext dbcontext)
     {
         _dbcontext = dbcontext;
     }
@@ -19,28 +19,28 @@ public class CategoryRepository : ICategoryRepository
 
     public void Add(Category entity)
     {
-       if(entity!=null)
+        if (entity != null)
         {
             _dbcontext.Categories.Add(entity);
             _dbcontext.SaveChanges();
             return;
         }
-       throw new ArgumentNullException(nameof(entity));
+        throw new ArgumentNullException(nameof(entity));
     }
 
     public Category? GetbyId(int id)
                         => _dbcontext.Categories.Include(c => c.Products).FirstOrDefault(c => c.Id == id);
-    
+
 
     public List<Product> GetProducts(int CategoryId)
     {
-        var list = _dbcontext.Products.Where(p=>p.CategoryId == CategoryId).ToList();
+        var list = _dbcontext.Products.Where(p => p.CategoryId == CategoryId).ToList();
         return list;
     }
 
     public void Remove(Category entity)
     {
-        if(entity!=null)
+        if (entity != null)
         {
             _dbcontext.Categories.Remove(entity);
             _dbcontext.SaveChanges();
@@ -63,13 +63,13 @@ public class CategoryRepository : ICategoryRepository
 
     public void Update(int Id, Category entity)
     {
-       var categrory = _dbcontext.Categories.Find(Id);
+        var categrory = _dbcontext.Categories.Find(Id);
         var oldPicture = categrory.ImageName;
-        if(categrory!=null)
+        if (categrory != null)
         {
             categrory.Name = entity.Name;
             categrory.Description = entity.Description;
-            if(categrory.ImageName!=null || categrory.ImageName!="Defualt.png")
+            if (categrory.ImageName != null || categrory.ImageName != "Defualt.png")
             {
                 categrory.ImageName = oldPicture;
             }

@@ -23,7 +23,7 @@ namespace E_Commmerce.ViewModels.User
 
         [DataType(DataType.Password)]
         public string Password { get; set; } = null!;
-        
+
         public UpdateImageViewModel? ImageViewModel { get; set; }
         public bool IsAdmin { get; set; }
 
